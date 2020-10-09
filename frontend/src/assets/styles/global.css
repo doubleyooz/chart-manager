@@ -1,0 +1,21 @@
+:root{
+    font-size: 60%;
+
+    --color-background: #F0F0F7;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root{
+    height: 100vh;
+}
+
+body{
+    /*background-color: var(--color-background);*/
+    background-image: linear-gradient(90deg, #020024 0%, #73b7c9 35%, #c500ff 100%);
+}
