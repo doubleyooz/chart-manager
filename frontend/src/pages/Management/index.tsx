@@ -13,6 +13,18 @@ type Investment = {
   };
 
 
+
+/*function parseDateString(value: string, originalValue: string) {
+    const parsedDate = isDate(originalValue)
+        ? originalValue
+        : parse(originalValue, "dd.MM.yyyy", new Date())
+
+       console.log(originalValue)
+    
+        return parsedDate;
+}
+*/
+
       
 const schema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(2).max(10),
@@ -23,7 +35,7 @@ const schema = yup.object().shape({
 
 });
 
-     
+
 
 const Management = () =>{
     const { register, handleSubmit, errors } = useForm<Investment>({
@@ -79,11 +91,11 @@ const Management = () =>{
                 </div>
 
                 <div className="field">
-                    <label htmlFor="date">Date</label>
+                    <label htmlFor="purchaseDate">Date</label>
                     <input
                         type="date"
-                        id="date"
-                        name="date"
+                        id="purchaseDate"
+                        name="purchaseDate"
                         ref={register}
                     />
                     <span className={!!errors.purchaseDate ? "error" : "no-error"} >{errors?.purchaseDate?.message}</span>
