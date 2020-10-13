@@ -1,4 +1,6 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -43,14 +45,15 @@ const Management = () =>{
         resolver: yupResolver(schema), 
     });
 
-    const onSubmit = () => {
-        console.log("Aqui")
-    };
-    
+        
+    function OnSubmit() {
+        useHistory().push("/");
+    }
+
     return(       
         <div className="management-container">
             
-            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+            <form className="form" onSubmit={handleSubmit(OnSubmit)}>
                 <div className="title">
                     New Investement
                 </div>
@@ -101,8 +104,10 @@ const Management = () =>{
                     <span className={!!errors.purchaseDate ? "error" : "no-error"} >{errors?.purchaseDate?.message}</span>
                 </div>
                 
-
+               
                 <button type="submit">SUBMIT</button>
+                
+                
             </form>
         </div>
     )
