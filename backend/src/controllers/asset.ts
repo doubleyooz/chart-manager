@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
-
-import { parseISO } from 'date-fns'
+import { isValid } from 'date-fns'
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -13,8 +12,7 @@ module.exports = {
     async store(req: Request, res: Response){        
                        
         const { name, price, quantity, purchaseDate }: IAsset = req.body;
-
-       
+        
 
         if(!valid_user){               
 
@@ -25,21 +23,24 @@ module.exports = {
         }
              else{
                
-                if (purchaseDate.match(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/)){
-                    console.log(purchaseDate)      
-                    const p1: IAsset = new Asset ({
+
+
+                if (isValid(purchaseDate)){
+                    console.log(purchaseDate)
+                    console.log(typeof(purchaseDate))    
+                    const p1 = new Asset ({
                         name: name,
                         price: price,
                         quantity: quantity,
                         purchaseDate: new Date(purchaseDate),
                     });
     
-                    Asset.save().then(result => {
+                    p1.save().then(result => {
                                            
                         res.status(201).json({
                             message: "Done upload!",
                             AssetAdded: {
-                                asset_id: result.asset_id,
+                                asset_id: result._id,
                                 name: result.name,
                                 price: result.price,
                                 quantity: result.quantity,

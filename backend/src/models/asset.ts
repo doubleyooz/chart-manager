@@ -5,6 +5,7 @@ export interface IAsset extends mongoose.Document {
     price: number;
     quantity: number;
     purchaseDate: Date;
+    addedAt: Date;
     
   }
 
