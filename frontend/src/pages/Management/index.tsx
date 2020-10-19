@@ -46,7 +46,7 @@ const Management = () =>{
     });
 
     let history = useHistory();    
-    const OnSubmit = (data:any) => {
+    const OnSubmit = (data:Investment) => {
         history.push("/");
         console.log(data);
     }
