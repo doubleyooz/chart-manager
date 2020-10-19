@@ -45,14 +45,14 @@ const Management = () =>{
         resolver: yupResolver(schema), 
     });
 
-        
-    function OnSubmit() {
-        useHistory().push("/");
+    let history = useHistory();    
+    const OnSubmit = (data:any) => {
+        history.push("/");
+        console.log(data);
     }
 
     return(       
-        <div className="management-container">
-            
+        <div className="management-container">            
             <form className="form" onSubmit={handleSubmit(OnSubmit)}>
                 <div className="title">
                     New Investement
