@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { isValid } from 'date-fns'
+import { isValid, isWithinInterval, parseISO } from 'date-fns'
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -9,9 +9,19 @@ import Asset, { IAsset } from '../models/asset';
 const valid_user = true;
 
 module.exports = {
-    async store(req: Request, res: Response){        
+    async store(req: Request, res: Response){   
+        
+        
+        type Input = {
+            name: string;
+            price: number;
+            quantity: number;
+            purchaseDate: string;
+            addedAt: Date;
+            
+          }
                        
-        const { name, price, quantity, purchaseDate }: IAsset = req.body;
+        const { name, price, quantity, purchaseDate }: Input = req.body;
         
 
         if(!valid_user){               
@@ -23,9 +33,30 @@ module.exports = {
         }
              else{
                
+                console.log(parseISO(purchaseDate))
+
+                if (isValid(parseISO(purchaseDate))){
 
 
-                if (isValid(purchaseDate)){
+                    console.log(new Date(2020, 3, 20));
+                    console.log(new Date(2020, 10, 20));
+                    console.log(new Date(purchaseDate));
+
+                    if(isWithinInterval(new Date(purchaseDate), {
+                        start: new Date(2020, 3, 1),
+                        end: new Date(2020, 10, 1)
+                      })){
+                        res.status(201).json({
+                            message: "TRUE!",
+                            
+                        })      
+                    } else {
+                        res.status(201).json({
+                            message: "FALSE!",
+                            
+                        })   
+                      }/*
+
                     console.log(purchaseDate)
                     console.log(typeof(purchaseDate))    
                     const p1 = new Asset ({
@@ -62,7 +93,7 @@ module.exports = {
                     res.status(422).json({
                         error: "Invalid Date Format (YYYY-MM-DD only)"
                     });
-                       
+                    */   
                 }             
             }                
     },

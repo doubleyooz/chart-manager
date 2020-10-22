@@ -16,17 +16,6 @@ type Investment = {
 
 
 
-/*function parseDateString(value: string, originalValue: string) {
-    const parsedDate = isDate(originalValue)
-        ? originalValue
-        : parse(originalValue, "dd.MM.yyyy", new Date())
-
-       console.log(originalValue)
-    
-        return parsedDate;
-}
-*/
-
       
 const schema = yup.object().shape({
     name: yup.string().required("Name is a required field").min(2).max(10),
@@ -47,8 +36,21 @@ const Management = () =>{
 
     let history = useHistory();    
     const OnSubmit = (data:Investment) => {
-        history.push("/");
+        //history.push("/");
+
+        const d = data.purchaseDate;
+        let month = `${d.getMonth() + 1}`;
+        let day = `${d.getDate()}`;
+        const year = d.getFullYear();
+        
+        if (month.length < 2) month = `0${month}`;
+        if (day.length < 2) day = `0${day}`;      
+              
+        console.log([year, month, day].join('-'));
+        
         console.log(data);
+        console.log(data.purchaseDate);
+        console.log(typeof(data.purchaseDate));
     }
 
     return(       
@@ -98,8 +100,9 @@ const Management = () =>{
                     <input
                         type="date"
                         id="purchaseDate"
-                        name="purchaseDate"
+                        name="purchaseDate"                        
                         ref={register}
+                        
                     />
                     <span className={!!errors.purchaseDate ? "error" : "no-error"} >{errors?.purchaseDate?.message}</span>
                 </div>
