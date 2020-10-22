@@ -2,6 +2,7 @@
 
 # dependencies
 .env
+.lock
 /node_modules
 /.pnp
 .pnp.js

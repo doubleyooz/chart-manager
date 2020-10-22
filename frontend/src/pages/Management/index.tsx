@@ -5,16 +5,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
+import api from '../../services/api';
 import './styles.css'
 
 type Investment = {
     name: string;
     price: number;
     quantity: number;
-    purchaseDate: Date;
+    purchaseDate: string;
   };
 
-
+ 
 
       
 const schema = yup.object().shape({
@@ -35,18 +36,31 @@ const Management = () =>{
     });
 
     let history = useHistory();    
-    const OnSubmit = (data:Investment) => {
+    async function OnSubmit (data:Investment)  {
         //history.push("/");
+        
+        const d = new Date(data.purchaseDate);
+        console.log(data);
+        
 
-        const d = data.purchaseDate;
         let month = `${d.getMonth() + 1}`;
         let day = `${d.getDate()}`;
         const year = d.getFullYear();
         
         if (month.length < 2) month = `0${month}`;
-        if (day.length < 2) day = `0${day}`;      
-              
-        console.log([year, month, day].join('-'));
+        if (day.length < 2) day = `0${day}`;  
+        
+        let date = [year, month, day].join('-');
+        data.purchaseDate = date;
+
+        const response = await api.post('/asset', data);
+        //const { _id } = response.data;
+        
+        /*localStorage.setItem('asset', _id);
+        console.log( email )  */
+
+       
+        console.log(response.data);
         
         console.log(data);
         console.log(data.purchaseDate);

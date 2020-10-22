@@ -31,17 +31,11 @@ module.exports = {
             });
           
         }
-             else{
-               
-                console.log(parseISO(purchaseDate))
+             else{              
 
                 if (isValid(parseISO(purchaseDate))){
 
-
-                    console.log(new Date(2020, 3, 20));
-                    console.log(new Date(2020, 10, 20));
-                    console.log(new Date(purchaseDate));
-
+                   
                     if(isWithinInterval(new Date(purchaseDate), {
                         start: new Date(2020, 3, 1),
                         end: new Date(2020, 10, 1)
