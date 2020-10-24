@@ -22,7 +22,7 @@ const EnterpriseSchema: mongoose.Schema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    
+
 
     addedAt: {
         type: Date,

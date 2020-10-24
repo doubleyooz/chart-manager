@@ -11,7 +11,7 @@ routes.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-routes.post('/asset/create', AssetController.store);
+routes.post('/asset/store', AssetController.store);
 routes.post('/asset/index', AssetController.index);
 
 routes.post('/user/create', UserController.store);
