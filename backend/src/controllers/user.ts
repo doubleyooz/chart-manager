@@ -9,7 +9,7 @@ import { Request, Response, NextFunction } from 'express';
 import User, { IUser } from '../models/user';
 dotenv.config();
 
-const valid_user = true;
+
 
 module.exports = {
     async store(req: Request, res: Response){   
@@ -18,58 +18,70 @@ module.exports = {
         const { email, password }: IUser = req.body;
         
 
-        if(!valid_user){               
+        const valid_user = () => {
+            if(email && password){     
+                
+                let emailTest = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+                let passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+                
+                   
+                if (email.match(emailTest) && password.match(passwordTest))                                                     
+                    return true;                                                     
+                
+                else
+                    return false;                   
+            }  
+            else
+                return false;           
+        };
+            
+
+        if(!valid_user()){               
 
             return res.status(404).json({         
                 message: "User could not be created."               
             });
           
         }
-        else{           
+        else{                     
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(password, salt);
+            
+            const p1 = new User ({
+                email: email,
+                password: hash
+                
+            });
 
-            const salt = `${process.env.SALT}`;
-
-            await bcrypt.genSalt(10, function(err, salt) {
-                bcrypt.hash(password, salt, function(err, hash) {
-                    const p1 = new User ({
-                        email: email,
-                        password: hash
+            p1.save().then(result => {
+                            
+                res.status(201).json({
+                    message: "Done upload!",
+                    userAdded: result                      
+                    
+            
+                })              
+            
+            }).catch(err => {
+                
+                console.log(err)
+                if (err.name === 'MongoError' && err.code === 11000) {
+                    //next(new Error('There was a duplicate key error'));
+                    res.status(500).json({
+                        error: err,
+                        message: 'There was a duplicate key error',
                         
                     });
-
-                    p1.save().then(result => {
-                                    
-                        res.status(201).json({
-                            message: "Done upload!",
-                            userAdded: {
-                                user_id: result._id,
-                                email: result.email,
-                                password: result.password,
-                                
-                                
-                            }
-                        })              
-                    
-                    }).catch(err => {
+                    } else {
+                    res.status(500).json({
+                        error: err,
                         
-                        console.log(err)
-                        if (err.name === 'MongoError' && err.code === 11000) {
-                            //next(new Error('There was a duplicate key error'));
-                            res.status(500).json({
-                                error: err,
-                                message: 'There was a duplicate key error',
-                               
-                            });
-                            } else {
-                            res.status(500).json({
-                                error: err,
-                               
-                            });
-                        }                        
-                            
-                    });                     
-                });
-            });
+                    });
+                }                        
+                    
+            });                     
+
         }                                   
     },
 
