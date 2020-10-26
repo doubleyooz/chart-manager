@@ -11,7 +11,7 @@ dotenv.config();
 
 
 
-module.exports = {
+export = {
     async store(req: Request, res: Response){   
        
                        
@@ -85,14 +85,14 @@ module.exports = {
         }                                   
     },
 
-    async index(req, res){
+    async index(req: Request, res: Response){
         
         const { email } = req.query;
        
-        let docs = [];
+        let docs:any = [];
 
         if (email){
-            (await User.find( {email: {$regex: email, $options: "i"} } )).forEach(function (doc){
+            (await User.find( {email: {$regex: email as string, $options: "i"} } )).forEach(function (doc){
                 docs.push(doc)
             });
         }
@@ -115,7 +115,7 @@ module.exports = {
         });   
     },
 
-    async delete(req, res){
+    async delete(req: Request, res: Response){
     /*
         const { Enterprise_id, chapter_id } = req.query;
 

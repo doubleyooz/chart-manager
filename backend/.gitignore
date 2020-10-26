@@ -4,6 +4,7 @@
 .env
 .lock
 /node_modules
+/dist
 /.pnp
 .pnp.js
 

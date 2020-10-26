@@ -1,9 +1,9 @@
 import * as dotenv from "dotenv";
-import * as express from 'express';
+import express from 'express';
 import * as bodyParser from 'body-parser';
 
-import * as mongoose from 'mongoose';
-import * as cors from 'cors';
+import mongoose from 'mongoose';
+import cors from 'cors';
 import routes from './routes';
 
 dotenv.config();
@@ -35,7 +35,7 @@ const options: cors.CorsOptions = {
     methods: 'GET,HEAD,OPTIONS,PUT, UPDATE,PATCH, POST,DELETE',
     origin: 'http://localhost:3000/',
     //preflightContinue: false,
-    };
+};
 
 app.use(bodyParser.json());
 app.use(cors());

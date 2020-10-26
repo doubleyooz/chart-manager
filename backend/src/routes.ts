@@ -3,10 +3,12 @@ const AssetController = require('./controllers/asset');
 const UserController = require('./controllers/user');
 const EnterpriseController = require('./controllers/enterprise');
 
+import response from './common/response';
+
 const routes = express.Router()
 
 routes.get('/', (req: express.Request, res: express.Response) => {
-    return res.json({ message: "Hello World"});
+    return res.json(response.jsonOK(null, "Hello World", null));
 
 });
 

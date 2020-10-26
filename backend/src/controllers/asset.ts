@@ -8,7 +8,7 @@ import Asset, { IAsset } from '../models/asset';
 
 const valid_user = true;
 
-module.exports = {
+export = {
     async store(req: Request, res: Response){   
         
         
@@ -83,7 +83,7 @@ module.exports = {
             }                
     },
 
-    async index(req, res){
+    async index(req: Request, res: Response){
         
         const { asset_id } = req.body;
 
@@ -95,7 +95,7 @@ module.exports = {
         });       
     },
 
-    async delete(req, res){
+    async delete(req: Request, res: Response){
     /*
         const { asset_id, chapter_id } = req.query;
 

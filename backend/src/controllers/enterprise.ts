@@ -7,8 +7,7 @@ import Enterprise, { IEnterprise } from '../models/enterprise';
 
 
 const valid_user = true;
-
-module.exports = {
+export = {
     async store(req: Request, res: Response){   
         
         
@@ -80,26 +79,27 @@ module.exports = {
                             
     },
 
-    async index(req, res){
+    async index(req: Request, res: Response){
         
         const { name, initials, branch } = req.query;
+        
        
-        let docs = [];
+        let docs:any = [];
 
         if (name){
-            (await Enterprise.find( {name: {$regex: name, $options: "i"} } )).forEach(function (doc){
+            (await Enterprise.find( {name: {$regex: name as string, $options: "i"} } )).forEach(function (doc){
                 docs.push(doc)
             });
         }
 
         else if (initials){
-            (await Enterprise.find( {initials: {$regex: initials, $options: "i"} } )).forEach(function (doc){
+            (await Enterprise.find( {initials: {$regex: initials as string, $options: "i"} } )).forEach(function (doc){
                 docs.push(doc)
             });
         }
 
         else if (branch){
-            (await Enterprise.find( {branch: {$regex: branch, $options: "i"} } )).forEach(function (doc){
+            (await Enterprise.find( {branch: {$regex: branch as string, $options: "i"} } )).forEach(function (doc){
                 docs.push(doc)
             });
         }
@@ -122,7 +122,7 @@ module.exports = {
         });   
     },
 
-    async delete(req, res){
+    async delete(req: Request, res: Response){
     /*
         const { Enterprise_id, chapter_id } = req.query;
 
