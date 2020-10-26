@@ -20,5 +20,30 @@ export = {
       metadata = (metadata) ? metadata : {};
       
       return ({ message, data, metadata, status: STATUS_CODE_BAD_REQUEST })
+  },
+
+  jsonUnauthorized(data: any, message: string,  metadata: any){
+    data = (data) ? data : null;
+    message = (message) ? message : 'Unauthorized request.';
+    metadata = (metadata) ? metadata : {};
+    
+    return ({ message, data, metadata, status: STATUS_CODE_UNAUTHORIZED })
+  },
+
+  jsonNotFound(data: any, message: string,  metadata: any){
+    data = (data) ? data : null;
+    message = (message) ? message : 'Not Found.';
+    metadata = (metadata) ? metadata : {};
+    
+    return ({ message, data, metadata, status: STATUS_CODE_NOT_FOUND})
+  },    
+
+
+  jsonServerError(data: any, message: string,  metadata: any){
+    data = (data) ? data : null;
+    message = (message) ? message : "It's not you, it's us. Server Error";
+    metadata = (metadata) ? metadata : {};
+    
+    return ({ message, data, metadata, status: STATUS_CODE_SERVER_ERROR })
   }  
 }
