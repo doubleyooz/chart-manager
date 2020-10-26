@@ -5,6 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 
 import Asset, { IAsset } from '../models/asset';
 
+import response from '../common/response';
+
 
 const valid_user = true;
 
@@ -22,9 +24,9 @@ export = {
         
         if(!valid_user){             
 
-            return res.status(404).json({         
-                message: "User cannot be found."               
-            });
+            return res.json(        
+                response.jsonNotFound(null, "User cannot be found.", null)              
+            );
           
         }
              else{              
@@ -48,36 +50,35 @@ export = {
         
                         p1.save().then(result => {
                                             
-                            res.status(201).json({
-                                message: "Done upload!",
-                                AssetAdded: result
-                                    
-                                    
-                                
-                            })             
+                            res.json(        
+                                response.jsonOK(result, "Upload done!", null)              
+                            );
+     
                         
                         }).catch(err => {
                         
-                            console.log(err),
-                                res.status(500).json({
-                                    error: err
-                                });
+                            console.log(err)
+                            res.json(        
+                                response.jsonServerError(null , null, {err})            
+                            );
                         });            
 
 
                     } else {
-                        res.status(201).json({
-                            message: "FALSE!",
-                            
-                        })   
+
+                        res.json(
+                            response.jsonBadRequest(null, "Date out range", null)
+                        );
+                      
                       }
                    
 
 
                 } else{
-                    res.status(422).json({
-                        error: "Invalid Date Format (YYYY-MM-DD only)"
-                    });
+                    res.json(
+                        response.jsonBadRequest(null, "Invalid Date Format (YYYY-MM-DD only)", null)
+                    );
+                  
                     
                 }             
             }                
@@ -88,10 +89,11 @@ export = {
         const { asset_id } = req.body;
 
         Asset.findById(asset_id, function(err, asset){
-            res.status(200).json({
-                message:"Assets retrieved successfully!",
-                assets: asset
-            })
+
+            res.json(        
+                response.jsonOK(asset, "Assets retrieved successfully!", null)              
+            );
+            
         });       
     },
 

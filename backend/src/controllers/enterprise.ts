@@ -5,6 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import Enterprise, { IEnterprise } from '../models/enterprise';
 
+import response from '../common/response';
 
 const valid_user = true;
 export = {
@@ -16,12 +17,11 @@ export = {
         const { initials, name, price, branch, volume }: IEnterprise = req.body;
         
 
-        if(!valid_user){               
+        if(!valid_user){              
 
-            return res.status(404).json({         
-                message: "User cannot be found."               
-            });
-          
+            return res.json(        
+                response.jsonNotFound(null, "User cannot be found.", null)              
+            );          
         }
         else{           
             const p1 = new Enterprise ({
@@ -34,38 +34,28 @@ export = {
             });
 
             p1.save().then(result => {
+
+                return res.json(        
+                    response.jsonOK(result, "Upload done!", null)              
+                );    
                                     
-                res.status(201).json({
-                    message: "Done upload!",
-                    added: true,
-                    EnterpriseAdded: {
-                        Enterprise_id: result._id,
-                        initials: result.initials,
-                        name: result.name,
-                        price: result.price,
-                        volume: result.volume,
-                        branch: result.branch,
-                        active: result.isActive,
-                        
-                    }
-                })              
+                  
             
             }).catch(err => {
                 
                 console.log(err)
                 if (err.name === 'MongoError' && err.code === 11000) {
                     //next(new Error('There was a duplicate key error'));
-                    res.status(500).json({
-                        error: err,
-                        message: 'There was a duplicate key error',
-                        added: false,
-                    });
-                    } else {
-                    res.status(500).json({
-                        error: err,
-                        added: false,
-                    });
-                    }
+                    return res.json(        
+                        response.jsonBadRequest(null, "There was a duplicate key error", {err})              
+                    );  
+                  
+                } else {
+                    return res.json(        
+                        response.jsonBadRequest(null, null, {err})              
+                    );  
+                   
+                }
                 
                     
             });                      
@@ -115,11 +105,9 @@ export = {
         
 
         console.log(docs)
-        res.status(200).json({
-            message: "Page list retrieved successfully!",
-            enterprises: docs
-            
-        });   
+        return res.json(        
+            response.jsonOK(docs, "Page list retrieved successfully!", null)              
+        );        
     },
 
     async delete(req: Request, res: Response){

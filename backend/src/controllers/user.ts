@@ -4,9 +4,10 @@ import * as bcrypt from 'bcrypt';
 
 import { Request, Response, NextFunction } from 'express';
 
-
-
 import User, { IUser } from '../models/user';
+
+import response from '../common/response';
+
 dotenv.config();
 
 
@@ -37,11 +38,11 @@ export = {
         };
             
 
-        if(!valid_user()){               
+        if(!valid_user()){             
 
-            return res.status(404).json({         
-                message: "User could not be created."               
-            });
+            return res.json(        
+                response.jsonBadRequest(null, "User cannot be found.", null)              
+            );
           
         }
         else{                     
@@ -55,30 +56,28 @@ export = {
             });
 
             p1.save().then(result => {
+
+                res.json(        
+                    response.jsonOK(result, "Upload done.", null)              
+                );
                             
-                res.status(201).json({
-                    message: "Done upload!",
-                    userAdded: result                      
-                    
-            
-                })              
+                  
             
             }).catch(err => {
                 
                 console.log(err)
                 if (err.name === 'MongoError' && err.code === 11000) {
                     //next(new Error('There was a duplicate key error'));
-                    res.status(500).json({
-                        error: err,
-                        message: 'There was a duplicate key error',
-                        
-                    });
-                    } else {
-                    res.status(500).json({
-                        error: err,
-                        
-                    });
-                }                        
+                    return res.json(        
+                        response.jsonBadRequest(null, "There was a duplicate key error", {err})              
+                    );  
+                  
+                } else {
+                    return res.json(        
+                        response.jsonBadRequest(null, null, {err})              
+                    );  
+                   
+                }       
                     
             });                     
 
@@ -108,11 +107,9 @@ export = {
         
 
         console.log(docs)
-        res.status(200).json({
-            message: "Page list retrieved successfully!",
-            users: docs
-            
-        });   
+        res.json(        
+            response.jsonOK(docs, "Page list retrieved successfully!", null)              
+        );
     },
 
     async delete(req: Request, res: Response){
