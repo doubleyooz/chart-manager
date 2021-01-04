@@ -8,7 +8,7 @@ import response from '../common/response';
 
 
 export = {
-    async valid_user(req: Request, res: Response, next: NextFunction){         
+    async valid_store_user(req: Request, res: Response, next: NextFunction){         
                        
                
         const yupObject = yup.object().shape({
@@ -23,7 +23,7 @@ export = {
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
                     return res.json(        
-                        response.jsonBadRequest(null, "You didn't give us what we want!", err.message)              
+                        response.jsonBadRequest(null, "You didn't give us what we want!", err.errors)              
                     )  
                 })
 

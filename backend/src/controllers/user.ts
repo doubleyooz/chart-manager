@@ -17,50 +17,39 @@ export = {
                        
         const { email, password }: IUser = req.body;
     
-        if(email && password){                
-            let emailTest = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-            let passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+        if(email && password){                       
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(password, salt);
             
+            const p1 = new User ({
+                email: email,
+                password: hash
                 
-            if (email.match(emailTest) && password.match(passwordTest)) {
-                const salt = bcrypt.genSaltSync(10);
-                const hash = bcrypt.hashSync(password, salt);
-                
-                const p1 = new User ({
-                    email: email,
-                    password: hash
-                    
-                });
+            });
 
-                p1.save().then(result => {
-                    res.json(        
-                        response.jsonOK(result, "Account created", null)              
-                    );                              
-                            
-                }).catch(err => {
+            p1.save().then(result => {
+                res.json(        
+                    response.jsonOK(result, "Account created", null)              
+                );                              
+
+            }).catch(err => {
+                
+                console.log(err)
+                if (err.name === 'MongoError' && err.code === 11000) {
+                    //next(new Error('There was a duplicate key error'));
+                    return res.json(        
+                        response.jsonBadRequest(null, "There was a duplicate key error", {err})              
+                    );  
+                
+                } else {
+                    return res.json(        
+                        response.jsonBadRequest(null, null, {err})              
+                    );  
+                
+                }       
                     
-                    console.log(err)
-                    if (err.name === 'MongoError' && err.code === 11000) {
-                        //next(new Error('There was a duplicate key error'));
-                        return res.json(        
-                            response.jsonBadRequest(null, "There was a duplicate key error", {err})              
-                        );  
-                    
-                    } else {
-                        return res.json(        
-                            response.jsonBadRequest(null, null, {err})              
-                        );  
-                    
-                    }       
-                        
-                });     
-            }
-            else{                   
-                return res.json(        
-                    response.jsonBadRequest(null, "Invalid email or password.", null)              
-                );                   
-            } 
+            });     
+        
         } 
         else{
             return res.json(        
@@ -93,7 +82,7 @@ export = {
 
         console.log(docs)
         res.json(        
-            response.jsonOK(docs, "Page list retrieved successfully!", null)              
+            response.jsonOK(docs, `Page list retrieved successfully! Users found: ${docs.length}`, null)              
         );
     },
 
