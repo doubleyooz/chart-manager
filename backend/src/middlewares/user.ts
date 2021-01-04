@@ -10,7 +10,7 @@ import response from '../common/response';
 export = {
     async valid_user(req: Request, res: Response, next: NextFunction){         
                        
-        const { email, password }: IUser = req.body;           
+               
         const yupObject = yup.object().shape({
             email: yup.string().email().required(),
             password: yup.string()
@@ -20,17 +20,13 @@ export = {
                 .required(),
         });
 
+        yupObject.validate(req.body).then(() => next())
+                 .catch((err: any) => {
+                    return res.json(        
+                        response.jsonBadRequest(null, "You didn't give us what we want!", err.message)              
+                    )  
+                })
 
-        try{
-            const validatedBody = await yupObject.validate({email, password})           
-            req.body = validatedBody;
-            
-            next();
-        }catch(err: any){
-            
-            return res.json(        
-                response.jsonBadRequest(null, "You didn't give us what we want!", err.message)              
-            );   
-        }     
+       
     }  
 }
