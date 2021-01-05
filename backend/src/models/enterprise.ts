@@ -16,7 +16,7 @@ const EnterpriseSchema: mongoose.Schema = new mongoose.Schema({
     name: { type: String, required: true },
     branch: { type: String, required: true },
     price: { type: Number, required: true },
-    volume: { type: Number, required: true },
+    volume: { type: Number, default: 0 },
 
     isActive: {
         type: Boolean,

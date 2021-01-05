@@ -14,7 +14,7 @@ export = {
         
        
                        
-        const { initials, name, price, branch, volume }: IEnterprise = req.body;
+        const { initials, name, price, branch }: IEnterprise = req.body;
         
 
         if(!valid_user){              
@@ -28,8 +28,7 @@ export = {
                 initials: initials,
                 name: name,
                 price: price,
-                branch: branch,
-                volume: volume,
+                branch: branch,                
                 
             });
 
