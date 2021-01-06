@@ -5,6 +5,7 @@ const EnterpriseController = require('./controllers/enterprise');
 
 import UserMiddleware from './middlewares/user';
 import EnterpriseMiddleware from './middlewares/enterprise';
+import AssetMiddleware from './middlewares/asset';
 
 import response from './common/response';
 
@@ -16,7 +17,7 @@ routes.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-routes.post('/asset/store', AssetController.store);
+routes.post('/asset/store', AssetMiddleware.valid_store_asset, AssetController.store);
 routes.post('/asset/index', AssetController.index);
 
 routes.post('/user/create', UserMiddleware.valid_store_user, UserController.store);
