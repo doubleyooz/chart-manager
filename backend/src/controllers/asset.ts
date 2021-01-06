@@ -86,15 +86,22 @@ export = {
 
     async index(req: Request, res: Response){
         
-        const { asset_id } = req.body;
+        const { user_id } = req.body;
 
-        Asset.findById(asset_id, function(err, asset){
+       
+        let docs: any = [];
 
-            res.json(        
-                response.jsonOK(asset, "Assets retrieved successfully!", null)              
-            );
+        (await Asset.find( {user_id: user_id } )).forEach(function (doc){
+            docs.push(doc)
+        });
+
+       
+
+        res.json(        
+            response.jsonOK(docs, "Assets list retrieved successfully!", null)              
+        );
             
-        });       
+            
     },
 
     async delete(req: Request, res: Response){
