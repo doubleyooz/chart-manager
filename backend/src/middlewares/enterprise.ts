@@ -8,7 +8,7 @@ import response from '../common/response';
 
 
 export = {
-    async valid_store_enterprise(req: Request, res: Response, next: NextFunction){         
+    async valid_store(req: Request, res: Response, next: NextFunction){         
                        
         const yupObject = yup.object().shape({
             initials: yup.string().strict(true)

@@ -17,13 +17,13 @@ routes.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-routes.post('/asset/store', AssetMiddleware.valid_store_asset, AssetController.store);
+routes.post('/asset/store', AssetMiddleware.valid_store, AssetController.store);
 routes.get('/asset/index', AssetController.index);
 
-routes.post('/user/create', UserMiddleware.valid_store_user, UserController.store);
+routes.post('/user/create', UserMiddleware.valid_store, UserController.store);
 routes.get('/user/index', UserController.index);
 
-routes.post('/enterprise/create', EnterpriseMiddleware.valid_store_enterprise, EnterpriseController.store);
+routes.post('/enterprise/create', EnterpriseMiddleware.valid_store, EnterpriseController.store);
 routes.get('/enterprise/index', EnterpriseController.index);
 
 
