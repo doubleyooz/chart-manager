@@ -14,11 +14,13 @@ export = {
     async store(req: Request, res: Response){   
         
         
+        
         const name: string = req.body.name;
         const price: number = req.body.price;
         const quantity: number = req.body.quantity;
         const purchaseDate: string = req.body.purchaseDate;        
-       
+        const enterprise_id : string = req.body.enterprise_id;
+
         console.log(purchaseDate)
         
         if(!valid_user){             
@@ -28,58 +30,56 @@ export = {
             );
           
         }
-             else{              
+        else{              
 
-                if (isValid(parseISO(purchaseDate))){
-
-                   
-                    if(isWithinInterval(new Date(purchaseDate), {
-                        start: new Date(2020, 3, 1),
-                        end: new Date(2020, 10, 1)
-                      })){
-
-                            
-                        const p1 = new Stock ({
-                            name: name,
-                            price: price,
-                            quantity: quantity,
-                            purchaseDate: new Date(purchaseDate),
-                        });
-        
-                        p1.save().then(result => {
-                                            
-                            res.json(        
-                                response.jsonOK(result, "Upload done!", null)              
-                            );
-     
+            if (isValid(parseISO(purchaseDate))){                
+                if(isWithinInterval(new Date(purchaseDate), {
+                    start: new Date(2020, 3, 1),
+                    end: new Date(2020, 10, 1)
+                    })){
                         
-                        }).catch(err => {
-                        
-                            console.log(err)
-                            res.json(        
-                                response.jsonServerError(null , null, {err})            
-                            );
-                        });            
-
-
-                    } else {
-
-                        res.json(
-                            response.jsonBadRequest(null, "Date out range", null)
+                    const p1 = new Stock ({
+                        name: name,
+                        price: price,
+                        quantity: quantity,
+                        purchaseDate: new Date(purchaseDate),
+                        enterprise_id: enterprise_id,
+                    });
+    
+                    p1.save().then(result => {
+                                        
+                        res.json(        
+                            response.jsonOK(result, "Stock saved!", null)              
                         );
-                      
-                      }
-                   
-
-
-                } else{
-                    res.json(
-                        response.jsonBadRequest(null, "Invalid Date Format (YYYY-MM-DD only)", null)
-                    );
-                  
+    
                     
-                }             
-            }                
+                    }).catch(err => {
+                    
+                        console.log(err)
+                        res.json(        
+                            response.jsonServerError(null , null, {err})            
+                        );
+                    });            
+
+
+                } else {
+
+                    res.json(
+                        response.jsonBadRequest(null, "Date out range", null)
+                    );
+                    
+                    }
+                
+
+
+            } else{
+                res.json(
+                    response.jsonBadRequest(null, "Invalid Date Format (YYYY-MM-DD only)", null)
+                );
+                
+                
+            }             
+        }                
     },
 
     async index(req: Request, res: Response){

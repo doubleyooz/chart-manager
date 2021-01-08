@@ -5,7 +5,7 @@ export interface IStock extends mongoose.Document {
   price: number;
   quantity: number;
   purchaseDate: Date;
-    
+  enterprise_id: mongoose.Schema.Types.ObjectId;  
     
 }
 
