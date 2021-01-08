@@ -7,9 +7,9 @@ export interface IEnterprise extends mongoose.Document {
     price: number,
     volume: number,
     isActive: boolean,
-   
-    
-  }
+
+
+}
 
 const EnterpriseSchema: mongoose.Schema = new mongoose.Schema({
     initials: { type: String, required: true, unique: true },
@@ -23,6 +23,11 @@ const EnterpriseSchema: mongoose.Schema = new mongoose.Schema({
         default: true,
     },
 
+    stocks: [{ //a array fill with the stocks
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Stock'
+    
+    }],
 
     addedAt: {
         type: Date,
