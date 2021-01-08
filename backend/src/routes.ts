@@ -5,7 +5,7 @@ const EnterpriseController = require('./controllers/enterprise');
 
 import UserMiddleware from './middlewares/user';
 import EnterpriseMiddleware from './middlewares/enterprise';
-import AssetMiddleware from './middlewares/asset';
+import AssetMiddleware from './middlewares/stock';
 
 import response from './common/response';
 

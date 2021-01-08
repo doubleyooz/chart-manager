@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export interface IAsset extends mongoose.Document {
+export interface IStock extends mongoose.Document {
     name: string;
     price: number;
     quantity: number;
@@ -10,17 +10,11 @@ export interface IAsset extends mongoose.Document {
     
   }
 
-const AssetSchema: mongoose.Schema = new mongoose.Schema({
+const StockSchema: mongoose.Schema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
   purchaseDate: { type: Date, required: true },
-
-  user_id: {   
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-
-  },
 
   addedAt: {
     type: Date,
@@ -33,4 +27,4 @@ const AssetSchema: mongoose.Schema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model<IAsset>('Asset', AssetSchema);
+export default mongoose.model<IStock>('Stock', StockSchema);

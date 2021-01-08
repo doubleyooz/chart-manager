@@ -3,7 +3,7 @@ import { isValid, isWithinInterval, parseISO } from 'date-fns'
 
 import { Request, Response, NextFunction } from 'express';
 
-import Asset, { IAsset } from '../models/asset';
+import Stock, { IStock } from '../models/stock';
 
 import response from '../common/response';
 
@@ -17,7 +17,6 @@ export = {
         const name: string = req.body.name;
         const price: number = req.body.price;
         const quantity: number = req.body.quantity;
-        const user_id: string = req.body.user_id;
         const purchaseDate: string = req.body.purchaseDate;        
        
         console.log(purchaseDate)
@@ -40,11 +39,10 @@ export = {
                       })){
 
                             
-                        const p1 = new Asset ({
+                        const p1 = new Stock ({
                             name: name,
                             price: price,
                             quantity: quantity,
-                            user_id: user_id,
                             purchaseDate: new Date(purchaseDate),
                         });
         
@@ -91,14 +89,14 @@ export = {
        
         let docs: any = [];
 
-        (await Asset.find( {user_id: user_id } )).forEach(function (doc){
+        (await Stock.find( {user_id: user_id } )).forEach(function (doc){
             docs.push(doc)
         });
 
        
 
         res.json(        
-            response.jsonOK(docs, "Assets list retrieved successfully!", null)              
+            response.jsonOK(docs, "Stocks list retrieved successfully!", null)              
         );
             
             

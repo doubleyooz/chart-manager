@@ -18,6 +18,12 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+
+    stocks: [{ //a array fill with the data links
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Stock'
+    
+     }],
 });
 
 export default mongoose.model<IUser>('User', UserSchema);
