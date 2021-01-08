@@ -15,6 +15,11 @@ const StockSchema: mongoose.Schema = new mongoose.Schema({
   quantity: { type: Number, required: true },
   purchaseDate: { type: Date, required: true },
 
+  enterprise_id:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+
   users_id:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
