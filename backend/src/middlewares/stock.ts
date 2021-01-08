@@ -2,8 +2,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup' 
 //import { yupResolver } from '@hookform/resolvers/yup';
-
-import { IEnterprise } from '../models/enterprise';
 import response from '../common/response';
 
 
@@ -17,7 +15,8 @@ export = {
           
             price: yup.number().moreThan(0).required(),
             quantity: yup.number().moreThan(0).required(),
-            purchaseDate: yup.string().strict(true).required()
+            purchaseDate: yup.string().strict(true).required(),
+            enterprise_id: yup.string().strict(true).required()
            
            
         });
