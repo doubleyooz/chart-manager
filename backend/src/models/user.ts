@@ -4,7 +4,7 @@ export interface IUser extends mongoose.Document {
    email: string,
    password: string,
     
-  }
+}
 
 const UserSchema: mongoose.Schema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
@@ -19,11 +19,11 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
         default: Date.now,
     },
 
-    stocks: [{ //a array fill with the data links
+    stocks: [{ //a array fill with the stocks ids
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Stock'
     
-     }],
+    }],
 });
 
 export default mongoose.model<IUser>('User', UserSchema);
