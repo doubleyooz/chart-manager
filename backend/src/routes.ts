@@ -20,7 +20,7 @@ routes.get('/', (req: express.Request, res: express.Response) => {
 routes.post('/stock/store', AssetMiddleware.valid_store, AssetController.store);
 routes.get('/stock/index', AssetController.index);
 
-routes.post('/user/create', UserMiddleware.valid_store, UserController.store);
+routes.post('/user/create', UserMiddleware.valid_user, UserController.store);
 routes.get('/user/index', UserController.index);
 
 routes.post('/enterprise/create', EnterpriseMiddleware.valid_store, EnterpriseController.store);
