@@ -120,6 +120,14 @@ export = {
     },
 
     async auth(req: Request, res: Response){
-        
+        const { email, password }: IUser = req.body;
+
+        const doesUserExist = await User.exists({ email: email }); 
+
+        if(!doesUserExist){
+            return res.json(
+                response.jsonNotFound(null, "invalid credentials", null)
+            )
+        }
     }
 }
