@@ -8,6 +8,8 @@ import User, { IUser } from '../models/user';
 
 import response from '../common/response';
 
+import jwt from '../common/jwt';
+
 dotenv.config();
 
 
@@ -28,8 +30,12 @@ export = {
             });
 
             p1.save().then(result => {
+
+                const token = jwt.generateJwt({id: p1._id});
+                const refreshToken = jwt.generateRefreshJwt({id: p1._id});
+
                 res.json(        
-                    response.jsonOK(result, "Account created", null)              
+                    response.jsonOK(result, "Account created", {token, refreshToken})              
                 );                              
 
             }).catch(err => {
@@ -111,5 +117,9 @@ export = {
         })
 
              
+    },
+
+    async auth(req: Request, res: Response){
+        
     }
 }

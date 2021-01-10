@@ -1,5 +1,5 @@
 import * as express from 'express';
-const AssetController = require('./controllers/asset');
+const AssetController = require('./controllers/stock');
 const UserController = require('./controllers/user');
 const EnterpriseController = require('./controllers/enterprise');
 
@@ -17,8 +17,8 @@ routes.get('/', (req: express.Request, res: express.Response) => {
 });
 
 
-routes.post('/asset/store', AssetMiddleware.valid_store, AssetController.store);
-routes.get('/asset/index', AssetController.index);
+routes.post('/stock/store', AssetMiddleware.valid_store, AssetController.store);
+routes.get('/stock/index', AssetController.index);
 
 routes.post('/user/create', UserMiddleware.valid_store, UserController.store);
 routes.get('/user/index', UserController.index);
