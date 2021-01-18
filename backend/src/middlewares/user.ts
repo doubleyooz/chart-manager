@@ -13,7 +13,7 @@ const rules = {
 }
 
 export = {
-    async valid_user(req: Request, res: Response, next: NextFunction){       
+    async valid_sign_up(req: Request, res: Response, next: NextFunction){       
                        
                
         const yupObject = yup.object().shape({
@@ -31,5 +31,22 @@ export = {
        
     },
     
+    async valid_sign_in(req: Request, res: Response, next: NextFunction){    
+                       
+               
+        const yupObject = yup.object().shape({
+            email: rules.email,
+            password: rules.password,
+        });
+
+        yupObject.validate(req.body).then(() => next())
+                 .catch((err: any) => {
+                    return res.json(        
+                        response.jsonBadRequest(null, "You didn't give us what we want!", null)              
+                    )  
+                })
+
+       
+    },
    
 }

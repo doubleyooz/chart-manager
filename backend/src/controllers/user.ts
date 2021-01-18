@@ -120,14 +120,27 @@ export = {
     },
 
     async auth(req: Request, res: Response){
-        const { email, password }: IUser = req.body;
+        const { email, password }: IUser = req.body;      
 
-        const doesUserExist = await User.exists({ email: email }); 
+        const user = await User.findOne({ email: email }).select('password')
 
-        if(!doesUserExist){
+        console.log(user)
+        const match = user ? await bcrypt.compare(password, user.password) : null;
+        
+        if(!match){
             return res.json(
-                response.jsonNotFound(null, "invalid credentials", null)
+                response.jsonBadRequest(null, "Bad Request", null)
+            )
+        } else{
+            const token = jwt.generateJwt({id: user._id});
+            const refreshToken = jwt.generateRefreshJwt({id: user._id});
+           
+            return res.json(
+                response.jsonOK(user, "Login successfully done", {token, refreshToken})
             )
         }
+
+           
+        
     }
 }
