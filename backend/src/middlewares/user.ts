@@ -7,9 +7,9 @@ import response from '../common/response';
 const rules = {
     email:  yup.string().email().required(),
     password: yup.string()
-                .min(8, 'Password is too short - should be 8 chars minimum.')
+                .min(8, response.getMessage("user.invalid.password.short"))
                 .matches( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-                        'the password must contain at least 1 number, at least 1 lower case letter, at least 1 upper case and at least 1 special character.')
+                        response.getMessage("user.invalid.password.weak"))
                 .required(),
 }
 
@@ -43,7 +43,7 @@ export = {
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
                     return res.json(        
-                        response.jsonBadRequest(null, response.getMessage("badRequest"), null)              
+                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
                     )  
                 })
 
