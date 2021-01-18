@@ -35,7 +35,7 @@ export = {
                 const refreshToken = jwt.generateRefreshJwt({id: p1._id});
 
                 res.json(        
-                    response.jsonOK(result, "Account created", {token, refreshToken})              
+                    response.jsonOK(result, response.getMessage("user.valid.sign_up.sucess"), {token, refreshToken})              
                 );                              
 
             }).catch(err => {
@@ -59,7 +59,7 @@ export = {
         } 
         else{
             return res.json(        
-                response.jsonBadRequest(null, "You did not give us what we want.", null)              
+                response.jsonBadRequest(null, response.getMessage("badRequest"), null)              
             ); 
         }                                                                     
     },
@@ -135,7 +135,7 @@ export = {
             const refreshToken = jwt.generateRefreshJwt({id: user._id});
            
             return res.json(
-                response.jsonOK(user, "Login successfully done", {token, refreshToken})
+                response.jsonOK(user, response.getMessage("user.valid.sign_in.sucess"), {token, refreshToken})
             )
         }
 
