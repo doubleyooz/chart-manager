@@ -94,10 +94,11 @@ export = {
 
     async delete(req: Request, res: Response){
     
-        const { user_id } = req.query;
+        const { user_id } = req;
+        console.log(user_id)
 
-        User.findOne({_id: user_id}).then(result =>  {
-            User.deleteOne({ id: user_id }, function (err: any) {
+        User.findOne({ _id: user_id }).then(result =>  {
+            User.deleteOne({ _id: user_id }, function (err: any) {
                 if (err){
                     return res.json(        
                         response.jsonNotFound(null, "The specified user could not be deleted", err.message)              

@@ -14,6 +14,9 @@ export = {
 
         try {
             const decoded = jwt.verifyJwt(token);
+
+            req.user_id = decoded.id;
+
             next();
         } catch(error){       
             return res.json(     
