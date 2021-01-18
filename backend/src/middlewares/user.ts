@@ -11,6 +11,9 @@ const rules = {
                 .matches( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
                         response.getMessage("user.invalid.password.weak"))
                 .required(),
+    sign_in_password: yup.string()
+                .min(8, response.getMessage("user.invalid.password.short"))
+                .required()
 }
 
 export = {
@@ -37,7 +40,7 @@ export = {
                
         const yupObject = yup.object().shape({
             email: rules.email,
-            password: rules.password,
+            password: rules.sign_in_password,
         });
 
         yupObject.validate(req.body).then(() => next())
