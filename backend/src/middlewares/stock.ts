@@ -24,7 +24,7 @@ export = {
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
                     return res.json(        
-                        response.jsonBadRequest(null, "You didn't give us what we want!", err.errors)              
+                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
                     )  
                 })
 
