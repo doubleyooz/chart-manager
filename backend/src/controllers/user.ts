@@ -124,7 +124,6 @@ export = {
 
         const user = await User.findOne({ email: email }).select('password')
 
-        console.log(user)
         const match = user ? await bcrypt.compare(password, user.password) : null;
         
         if(!match){
