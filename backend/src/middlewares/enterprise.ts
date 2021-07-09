@@ -2,9 +2,9 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup' 
 //import { yupResolver } from '@hookform/resolvers/yup';
-
+import { getMessage } from '../common/messages'
 import { IEnterprise } from '../models/enterprise';
-import response from '../common/response';
+
 
 
 export = {
@@ -27,9 +27,8 @@ export = {
 
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
-                    return res.json(        
-                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
-                    )  
+                    return res.jsonBadRequest(null, getMessage("badRequest"), err.errors)              
+                    
                 })
 
        

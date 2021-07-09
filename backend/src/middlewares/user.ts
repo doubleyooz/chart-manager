@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup' 
-import response from '../common/response';
+import { getMessage } from '../common/messages'
 
 
 
 const rules = {
     email:  yup.string().email().required(),
     password: yup.string()
-                .min(8, response.getMessage("user.invalid.password.short"))
+                .min(8, getMessage("user.invalid.password.short"))
                 .matches( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-                        response.getMessage("user.invalid.password.weak"))
+                        getMessage("user.invalid.password.weak"))
                 .required(),
     sign_in_password: yup.string()
-                .min(8, response.getMessage("user.invalid.password.short"))
+                .min(8, getMessage("user.invalid.password.short"))
                 .required()
 }
 
@@ -27,9 +27,8 @@ export = {
 
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
-                    return res.json(        
-                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
-                    )  
+                    return res.jsonBadRequest(null, getMessage("badRequest"), err.errors)              
+                      
                 })
 
        
@@ -45,9 +44,8 @@ export = {
 
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
-                    return res.json(        
-                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
-                    )  
+                    return res.jsonBadRequest(null, getMessage("badRequest"), err.errors)              
+                     
                 })
 
        

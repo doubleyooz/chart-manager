@@ -2,10 +2,9 @@ import * as mongoose from 'mongoose';
 import { isValid, isWithinInterval, parseISO } from 'date-fns'
 
 import { Request, Response, NextFunction } from 'express';
-
+import { getMessage } from '../common/messages'
 import Enterprise, { IEnterprise } from '../models/enterprise';
 
-import response from '../common/response';
 
 const valid_user = true;
 export = {
@@ -19,9 +18,8 @@ export = {
 
         if(!valid_user){              
 
-            return res.json(        
-                response.jsonNotFound(null, "User cannot be found.", null)              
-            );          
+            return res.jsonNotFound(null, "User cannot be found.", null)              
+                      
         }
         else{           
             const p1 = new Enterprise ({
@@ -34,9 +32,8 @@ export = {
 
             p1.save().then(result => {
 
-                return res.json(        
-                    response.jsonOK(result, "Upload done!", null)              
-                );    
+                return res.jsonOK(result, "Upload done!", null)              
+                    
                                     
                   
             
@@ -45,14 +42,12 @@ export = {
                 console.log(err)
                 if (err.name === 'MongoError' && err.code === 11000) {
                     //next(new Error('There was a duplicate key error'));
-                    return res.json(        
-                        response.jsonBadRequest(null, "There was a duplicate key error", {err})              
-                    );  
+                    return res.jsonBadRequest(null, "There was a duplicate key error", {err})              
+                      
                   
                 } else {
-                    return res.json(        
-                        response.jsonBadRequest(null, null, {err})              
-                    );  
+                    return res.jsonBadRequest(null, null, {err})              
+                    
                    
                 }
                 
@@ -104,9 +99,8 @@ export = {
         
 
         console.log(docs)
-        return res.json(        
-            response.jsonOK(docs, "Page list retrieved successfully!", null)              
-        );        
+        return res.jsonOK(docs, "Page list retrieved successfully!", null)              
+        
     },
 
     async delete(req: Request, res: Response){

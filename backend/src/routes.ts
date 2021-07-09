@@ -8,12 +8,11 @@ import EnterpriseMiddleware from './middlewares/enterprise';
 import StockMiddleware from './middlewares/stock';
 import JwtMiddleware from './middlewares/jwt';
 
-import response from './common/response';
 
 const routes = express.Router()
 
 routes.get('/', (req: express.Request, res: express.Response) => {
-    return res.json(response.jsonOK(null, "Hello World", null));
+    return res.jsonOK(null, "Hello World", null);
 
 });
 

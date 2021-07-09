@@ -3,10 +3,9 @@ import * as dotenv from "dotenv";
 import * as bcrypt from 'bcrypt';
 
 import { Request, Response, NextFunction } from 'express';
-
+import { getMessage } from '../common/messages'
 import User, { IUser } from '../models/user';
 
-import response from '../common/response';
 
 import jwt from '../common/jwt';
 
@@ -34,23 +33,20 @@ export = {
                 const token = jwt.generateJwt({id: p1._id});
                 const refreshToken = jwt.generateRefreshJwt({id: p1._id});
 
-                res.json(        
-                    response.jsonOK(result, response.getMessage("user.valid.sign_up.sucess"), {token, refreshToken})              
-                );                              
+                return res.jsonOK(result, getMessage("user.valid.sign_up.sucess"), {token, refreshToken})              
+                                              
 
             }).catch(err => {
                 
                 console.log(err)
                 if (err.name === 'MongoError' && err.code === 11000) {
                     //next(new Error('There was a duplicate key error'));
-                    return res.json(        
-                        response.jsonBadRequest(null, "There was a duplicate key error", {err})              
-                    );  
+                    return res.jsonBadRequest(null, "There was a duplicate key error", {err})              
+                      
                 
                 } else {
-                    return res.json(        
-                        response.jsonBadRequest(null, null, {err})              
-                    );  
+                    return res.jsonBadRequest(null, null, {err})              
+                      
                 
                 }       
                     
@@ -58,9 +54,8 @@ export = {
         
         } 
         else{
-            return res.json(        
-                response.jsonBadRequest(null, response.getMessage("badRequest"), null)              
-            ); 
+            return res.jsonBadRequest(null, getMessage("badRequest"), null)              
+             
         }                                                                     
     },
 
@@ -87,34 +82,30 @@ export = {
         
 
         console.log(docs)
-        res.json(        
-            response.jsonOK(docs, `Page list retrieved successfully! Users found: ${docs.length}`, null)              
-        );
+        return res.jsonOK(docs, `Page list retrieved successfully! Users found: ${docs.length}`, null)              
+        
     },
 
     async delete(req: Request, res: Response){
     
-        const { user_id } = req;
+        const { user_id: string } = req.query;
         console.log(user_id)
 
         User.findOne({ _id: user_id }).then(result =>  {
             User.deleteOne({ _id: user_id }, function (err: any) {
                 if (err){
-                    return res.json(        
-                        response.jsonNotFound(null, "The specified user could not be deleted", err.message)              
-                    )  
+                    return res.jsonNotFound(null, "The specified user could not be deleted", err.message)              
+                    
                 } else {
-                    return res.json(        
-                        response.jsonOK(null, "The specified user was deleted", result)              
-                    )  
+                    return res.jsonOK(null, "The specified user was deleted", result)              
+                     
                   }
                    
                 // deleted at most one tank document
                 });  
         }).catch(err => {
-            return res.json(        
-                response.jsonNotFound(null, "The specified user could not be found", err.message)              
-            )             
+            return res.jsonNotFound(null, "The specified user could not be found", err.message)              
+                      
         })
 
              
@@ -123,21 +114,19 @@ export = {
     async auth(req: Request, res: Response){
         const { email, password }: IUser = req.body;      
 
-        const user = await User.findOne({ email: email }).select('password')
+        const user:any = await User.findOne({ email: email }).select('password')
 
         const match = user ? await bcrypt.compare(password, user.password) : null;
         
         if(!match){
-            return res.json(
-                response.jsonBadRequest(null, "Bad Request", null)
-            )
+            return res.jsonBadRequest(null, "Bad Request", null)
+            
         } else{
             const token = jwt.generateJwt({id: user._id});
             const refreshToken = jwt.generateRefreshJwt({id: user._id});
            
-            return res.json(
-                response.jsonOK(user, response.getMessage("user.valid.sign_in.sucess"), {token, refreshToken})
-            )
+            return res.jsonOK(user, getMessage("user.valid.sign_in.sucess"), {token, refreshToken})
+            
         }
 
            

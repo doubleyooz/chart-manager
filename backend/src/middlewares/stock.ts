@@ -2,8 +2,8 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup' 
 //import { yupResolver } from '@hookform/resolvers/yup';
-import response from '../common/response';
 
+import { getMessage } from '../common/messages'
 
 export = {
     async valid_store(req: Request, res: Response, next: NextFunction){         
@@ -23,9 +23,8 @@ export = {
 
         yupObject.validate(req.body).then(() => next())
                  .catch((err: any) => {
-                    return res.json(        
-                        response.jsonBadRequest(null, response.getMessage("badRequest"), err.errors)              
-                    )  
+                    return res.jsonBadRequest(null, getMessage("badRequest"), err.errors)              
+                    
                 })
 
        

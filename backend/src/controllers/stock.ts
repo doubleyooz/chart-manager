@@ -2,10 +2,8 @@ import * as mongoose from 'mongoose';
 import { isValid, isWithinInterval, parseISO } from 'date-fns'
 
 import { Request, Response, NextFunction } from 'express';
-
+import { getMessage } from '../common/messages'
 import Stock, { IStock } from '../models/stock';
-
-import response from '../common/response';
 
 
 const valid_user = true;
@@ -25,9 +23,8 @@ export = {
         
         if(!valid_user){             
 
-            return res.json(        
-                response.jsonNotFound(null, "User cannot be found.", null)              
-            );
+            return res.jsonNotFound(null, "User cannot be found.", null)              
+            
           
         }
         else{              
@@ -48,34 +45,30 @@ export = {
     
                     p1.save().then(result => {
                                         
-                        res.json(        
-                            response.jsonOK(result, "Stock saved!", null)              
-                        );
+                        return res.jsonOK(result, "Stock saved!", null)              
+                     
     
                     
                     }).catch(err => {
                     
                         console.log(err)
-                        res.json(        
-                            response.jsonServerError(null , null, {err})            
-                        );
+                        return res.jsonServerError(null , null, {err})            
+                        
                     });            
 
 
                 } else {
 
-                    res.json(
-                        response.jsonBadRequest(null, "Date out range", null)
-                    );
+                    return res.jsonBadRequest(null, "Date out range", null)
                     
-                    }
+                    
+                }
                 
 
 
             } else{
-                res.json(
-                    response.jsonBadRequest(null, "Invalid Date Format (YYYY-MM-DD only)", null)
-                );
+                return res.jsonBadRequest(null, "Invalid Date Format (YYYY-MM-DD only)", null)
+                
                 
                 
             }             
@@ -95,9 +88,8 @@ export = {
 
        
 
-        res.json(        
-            response.jsonOK(docs, "Stocks list retrieved successfully!", null)              
-        );
+        return res.jsonOK(docs, "Stocks list retrieved successfully!", null)              
+        
             
             
     },

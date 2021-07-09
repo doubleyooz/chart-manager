@@ -1,5 +1,6 @@
 import jwt from '../common/jwt';
-import response from '../common/response';
+import { getMessage } from '../common/messages'
+
 import { Request, Response, NextFunction } from 'express';
 
 export = {
@@ -7,9 +8,8 @@ export = {
         let token = req.headers['authorization'];
         token = token ? token.slice(7, token.length) : undefined;
         if(!token){      
-            return res.json(     
-                response.jsonUnauthorized(null, response.getMessage("badRequest"), null)                              
-            )  
+            return res.jsonUnauthorized(null, getMessage("badRequest"), null)                              
+            
         }
 
         try {
@@ -19,9 +19,8 @@ export = {
 
             next();
         } catch(error){       
-            return res.json(     
-                response.jsonUnauthorized(null, response.getMessage("badRequest"), null)                              
-            )  
+            return res.jsonUnauthorized(null, getMessage("badRequest"), null)                              
+            
         }
     },
 } 
