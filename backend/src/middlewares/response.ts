@@ -1,4 +1,3 @@
-//import * as messages from './message.json';
 import { Request, Response, NextFunction } from 'express';
 
 const TYPE_JSON = 'application/json';
@@ -17,7 +16,7 @@ const jsonOK = function(this: Response, data: any, message: string | null, metad
   this.status(status);
   this.type(TYPE_JSON);
 
-  return ({ message, data, metadata, status: status })  
+  return this.json({ message, data, metadata, status: status })  
 }
 
 const jsonBadRequest = function (this: Response, data: any, message: string | null,  metadata: any){
@@ -28,7 +27,7 @@ const jsonBadRequest = function (this: Response, data: any, message: string | nu
   
   this.status(status);
   this.type(TYPE_JSON);
-  return ({ message, data, metadata, status: status })
+  return this.json({ message, data, metadata, status: status })
 }
 
 const jsonUnauthorized = function(this: Response, data: any, message: string | null,  metadata: any){
@@ -39,7 +38,7 @@ const jsonUnauthorized = function(this: Response, data: any, message: string | n
 
   this.status(status);
   this.type(TYPE_JSON);
-  return ({ message, data, metadata, status: status })
+  return this.json({ message, data, metadata, status: status })
 }
 
 const jsonNotFound = function (this: Response, data: any, message: string | null,  metadata: any){
@@ -50,7 +49,7 @@ const jsonNotFound = function (this: Response, data: any, message: string | null
 
   this.status(status);
   this.type(TYPE_JSON);
-  return ({ message, data, metadata, status: status })
+  return this.json({ message, data, metadata, status: status })
 }
 
 
@@ -62,7 +61,7 @@ const jsonServerError = function (this: Response, data: any, message: string | n
   
   this.status(status);
   this.type(TYPE_JSON);
-  return ({ message, data, metadata, status: status })
+  return this.json({ message, data, metadata, status: status })
 }  
 
 
@@ -75,4 +74,3 @@ export const response = (req: Request, res: Response, next: NextFunction) => {
 
   next();
 };
-
