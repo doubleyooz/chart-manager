@@ -7,7 +7,7 @@ declare namespace Express {
       jsonServerError?: any,
  
    }
-   export interface Resquest {
+   export interface Request {
       user_id?: any
  
    }

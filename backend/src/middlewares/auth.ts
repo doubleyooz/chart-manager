@@ -13,7 +13,7 @@ export = {
         }
 
         try {
-            const decoded = jwt.verifyJwt(token);
+            const decoded = jwt.verifyJwt(token, 1);
 
             req.user_id = decoded.id;
 

@@ -1,30 +1,41 @@
-import jwt from "jsonwebtoken";
-import * as dotenv from "dotenv";
+require('dotenv').config();
+const jwt = require("jsonwebtoken");
 
-dotenv.config();
+const tokenPrivateKey = `${process.env.JWT_ID}`;
+const refreshTokenPrivateKey =  `${process.env.JWT_REFRESH_ID}`;
 
-const tokenPrivateKey = `${process.env.JWT_TOKEN_PRIVATE_KEY}`;
-const refreshTokenPrivateKey =  `${process.env.JWT_REFRESH_TOKEN_PRIVATE_KEY}`;
-
-const options = { expiresIn: '120 minutes' };
+const options = { expiresIn: '10 minutes' };
 const refreshOptions = { expiresIn: '12 hours' };
 
 
-export = {
-    generateJwt(payload :any) {
-        return jwt.sign(payload, tokenPrivateKey, options);
-    },
-    
-    verifyJwt (token :any)  {
-        return jwt.verify(token, tokenPrivateKey )
-    },
+
+function generateJwt(payload: any, num: Number) {
+    switch (num){
+        case 1:
+            return jwt.sign(payload, tokenPrivateKey, options);
+        case 2:
+            return jwt.sign(payload, refreshTokenPrivateKey, refreshOptions);
         
-    generateRefreshJwt (payload :any) {
-        return jwt.sign(payload, refreshTokenPrivateKey, options);
-    },
-    
-    verifyRefreshJwt (token :any) {
-        return jwt.verify(token, refreshTokenPrivateKey )
+        default:
+            return null;
     }
+    
+    
 }
 
+function verifyJwt (token: string, num: Number)  {
+    switch (num){
+        case 1:
+            return jwt.verify(token, tokenPrivateKey);
+        case 2:
+            return jwt.verify(token, refreshTokenPrivateKey);
+        
+        default:
+            return null;
+    }
+    
+}
+
+export = {
+    generateJwt, verifyJwt
+}
