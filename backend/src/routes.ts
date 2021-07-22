@@ -12,9 +12,11 @@ import JwtMiddleware from './middlewares/jwt';
 const routes = express.Router()
 
 routes.get('/', (req: express.Request, res: express.Response) => {
+    console.log("here")
     return res.jsonOK(null, "Hello World", null);
 
 });
+
 
 
 routes.post('/stock/store', StockMiddleware.valid_store, StockController.store);
